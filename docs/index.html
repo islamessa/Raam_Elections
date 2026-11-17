@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>أصوات النقب – منصة تحليل القائمة العربية الموحدة</title>
+  <meta name="description" content="منصة تفاعلية لتحليل أصوات العرب في النقب منذ 2019، مع محاكي سيناريوهات وتوقعات 2030 و2034. المعطيات من لجنة الانتخابات المركزية ودائرة الإحصاء المركزية.">
+  <meta name="theme-color" content="#1c5cab">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%231c5cab'/><rect x='7' y='16' width='4' height='9' rx='1' fill='white'/><rect x='14' y='10' width='4' height='15' rx='1' fill='white'/><rect x='21' y='6' width='4' height='19' rx='1' fill='white'/></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap top-inner">
+      <div class="brand">
+        <span class="logo" aria-hidden="true"></span>
+        <div>
+          <h1>أصوات النقب</h1>
+          <p class="sub">تحليل تفاعلي لأصوات البلدات العربية في النقب – القائمة العربية الموحدة</p>
+        </div>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="أقسام المنصة">
+        <button role="tab" data-tab="summary"><i class="ic ic-home"></i><span>الملخص</span></button>
+        <button role="tab" data-tab="localities"><i class="ic ic-map"></i><span>البلدات</span></button>
+        <button role="tab" data-tab="sim"><i class="ic ic-sliders"></i><span>ماذا لو؟</span></button>
+        <button role="tab" data-tab="proj"><i class="ic ic-trend"></i><span>توقعات</span></button>
+        <button role="tab" data-tab="method"><i class="ic ic-info"></i><span>المنهجية</span></button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- ============ SUMMARY ============ -->
+    <section id="tab-summary" class="tab" role="tabpanel">
+      <div class="bar">
+        <span class="bar-label">الجولة الانتخابية</span>
+        <div class="chips" data-election-picker="all"></div>
+      </div>
+      <div class="notice" id="sum-notice" hidden></div>
+      <div class="kpis" id="sum-kpis"></div>
+
+      <div class="card">
+        <h2>أبرز الاستنتاجات</h2>
+        <ul class="insights" id="sum-insights"></ul>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <h2>نسبة التصويت: النقب مقابل المعدل القطري</h2>
+          <p class="hint">في كل الجولات الست</p>
+          <div class="chart"><canvas id="ch-turnout"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>أصوات قائمة الموحدة في النقب</h2>
+          <p class="hint">العمود الفاتح: الموحدة كانت ضمن قائمة مشتركة (لا يمكن فصل أصواتها)</p>
+          <div class="chart"><canvas id="ch-raam"></canvas></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>عدد أصحاب حق الاقتراع حسب نوع البلدة</h2>
+        <p class="hint">النمو في عدد أصحاب حق الاقتراع هو الأساس لكل التوقعات</p>
+        <div class="chart"><canvas id="ch-eligible"></canvas></div>
+      </div>
+    </section>
+
+    <!-- ============ LOCALITIES ============ -->
+    <section id="tab-localities" class="tab" role="tabpanel" hidden>
+      <div class="bar">
+        <span class="bar-label">الجولة الانتخابية</span>
+        <div class="chips" data-election-picker="all"></div>
+      </div>
+      <div class="bar">
+        <span class="bar-label">نوع البلدة</span>
+        <div class="chips" id="type-filter">
+          <button data-type="all">الكل</button>
+          <button data-type="town">مدن ومجالس محلية</button>
+          <button data-type="village">قرى معترف بها</button>
+          <button data-type="tribe">قرى غير معترف بها</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>مقارنة حسب نوع البلدة</h2>
+        <div class="table-wrap"><table class="tbl" id="type-table"></table></div>
+      </div>
+
+      <div class="card">
+        <h2>خريطة الأولويات</h2>
+        <p class="hint">كل دائرة بلدة (حجمها = عدد أصحاب حق الاقتراع). الخطان المتقطعان = معدل النقب. اضغط على دائرة لتفاصيلها.</p>
+        <div class="chart chart-tall"><canvas id="ch-priority"></canvas></div>
+        <div class="quad-legend">
+          <span><b class="g">🎯</b><strong>تجنيد</strong>: دعم عالٍ وتصويت منخفض (الأولوية الأولى)</span>
+          <span><b class="g">🏰</b><strong>معقل</strong>: دعم عالٍ وتصويت عالٍ (الحفاظ عليه)</span>
+          <span><b class="g">💬</b><strong>إقناع</strong>: دعم منخفض وتصويت عالٍ</span>
+          <span><b class="g">⚠️</b><strong>تحدٍّ مزدوج</strong>: دعم وتصويت منخفضان</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h2>جدول البلدات</h2>
+          <input type="search" id="loc-search" placeholder="ابحث عن بلدة…" aria-label="بحث">
+        </div>
+        <div class="slider-row compact">
+          <label for="target-turnout">لو وصلت كل بلدة إلى نسبة تصويت <output id="target-turnout-out"></output>، كم صوتًا إضافيًا تكسب الموحدة؟</label>
+          <input type="range" id="target-turnout" min="30" max="95" step="1">
+        </div>
+        <p class="hint" id="potential-total"></p>
+        <div class="table-wrap"><table class="tbl sortable" id="loc-table"></table></div>
+      </div>
+    </section>
+
+    <!-- ============ SIMULATOR ============ -->
+    <section id="tab-sim" class="tab" role="tabpanel" hidden>
+      <div class="bar">
+        <span class="bar-label">نبدأ من نتائج</span>
+        <div class="chips" data-election-picker="solo" data-key="simBase"></div>
+      </div>
+      <div class="grid-sim">
+        <div class="card controls">
+          <h2>غيّر المعطيات</h2>
+          <p class="hint">القيمة الافتراضية لكل منزلق هي ما حدث فعلًا (العلامة ▼).</p>
+          <div id="sim-sliders"></div>
+          <div class="btn-row">
+            <button class="btn ghost" id="sim-reset">↺ العودة للقيم الحقيقية</button>
+            <button class="btn" data-share>🔗 نسخ رابط هذا السيناريو</button>
+          </div>
+        </div>
+        <div>
+          <div class="headline" id="sim-headline"></div>
+          <div class="kpis kpis-2" id="sim-kpis"></div>
+          <div class="card">
+            <h2>قاعدة سريعة للحساب</h2>
+            <ul class="insights" id="sim-rules"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTIONS ============ -->
+    <section id="tab-proj" class="tab" role="tabpanel" hidden>
+      <div class="bar">
+        <span class="bar-label">سيناريو جاهز</span>
+        <div class="chips" id="scenario-picker">
+          <button data-scn="conservative">متحفّظ</button>
+          <button data-scn="realistic">واقعي</button>
+          <button data-scn="optimistic">متفائل</button>
+          <button data-scn="custom" disabled>مخصّص</button>
+        </div>
+      </div>
+      <div class="notice soft" id="scn-explain"></div>
+      <div class="grid-sim">
+        <div class="card controls">
+          <h2>افتراضات التوقع</h2>
+          <div id="proj-sliders"></div>
+          <details class="adv">
+            <summary>افتراضات قطرية (متقدم)</summary>
+            <div id="proj-sliders-adv"></div>
+          </details>
+          <div class="btn-row">
+            <button class="btn" data-share>🔗 نسخ رابط هذا السيناريو</button>
+          </div>
+        </div>
+        <div>
+          <div class="proj-cards" id="proj-cards"></div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <h2>أصحاب حق الاقتراع العرب في النقب</h2>
+          <p class="hint">2019–2026 فعلي · 2030 و2034 متوقع</p>
+          <div class="chart"><canvas id="ch-proj-eligible"></canvas></div>
+        </div>
+        <div class="card">
+          <h2>أصوات الموحدة من النقب</h2>
+          <p class="hint">الخط المتقطع = افتراضاتك الحالية · المساحة = بين السيناريو المتحفّظ والمتفائل</p>
+          <div class="chart"><canvas id="ch-proj-raam"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ METHODOLOGY ============ -->
+    <section id="tab-method" class="tab prose" role="tabpanel" hidden>
+      <div class="card">
+        <h2>من أين المعطيات؟</h2>
+        <p>كل الأرقام في المنصة مأخوذة كما هي من مصادر رسمية، ولم تُعدَّل:</p>
+        <ul>
+          <li><strong>لجنة الانتخابات المركزية للكنيست</strong>: النتائج الرسمية حسب البلدة لانتخابات الكنيست 21–26
+            (<a href="https://votes26.bechirot.gov.il/" target="_blank" rel="noopener">votes26.bechirot.gov.il</a> وما يقابله لكل جولة).</li>
+          <li><strong>دائرة الإحصاء المركزية</strong>: ملف البلدات 2019 و2023 (السكان، نوع البلدة، المجلس)، عبر
+            <a href="https://data.gov.il/dataset/localities-in-israel" target="_blank" rel="noopener">data.gov.il</a>.</li>
+          <li><strong>المنظومة الوطنية للبيانات الحكومية</strong>: أسماء البلدات بالعربية (<a href="https://data.gov.il/dataset/unified" target="_blank" rel="noopener">data.gov.il</a>)، وصُحّح اسمان خاطئان فيها.</li>
+        </ul>
+        <p class="hint" id="method-updated"></p>
+        <div class="btn-row"><button class="btn" id="download-csv">⬇ تنزيل كل المعطيات (CSV)</button></div>
+      </div>
+
+      <div class="card">
+        <h2>من هم "عرب النقب" في المنصة؟</h2>
+        <p>38 وحدة كما تظهر في ملفات لجنة الانتخابات: </p>
+        <ul>
+          <li><strong>7 مدن ومجالس محلية</strong>: رهط، تل السبع، كسيفة، اللقية، عرعرة النقب، شقيب السلام، حورة.</li>
+          <li><strong>11 قرية معترف بها</strong> في المجلسين الإقليميين واحة الصحراء (نفيه مدبار) والقسوم.</li>
+          <li><strong>20 "عشيرة" (שבט)</strong>: هكذا يسجَّل سكان القرى غير المعترف بها في سجل السكان، ولكل منها نتائج منفصلة.</li>
+        </ul>
+        <p>العرب الساكنون في بئر السبع والمدن المختلطة <strong>غير مشمولين</strong>، لأن النتائج الرسمية لا تفصلهم عن باقي سكان المدينة.</p>
+      </div>
+
+      <div class="card">
+        <h2>كيف نحسب؟</h2>
+        <ul>
+          <li><strong>نسبة التصويت</strong> = المصوتون ÷ أصحاب حق الاقتراع.</li>
+          <li><strong>نسبة الموحدة</strong> = أصوات الموحدة ÷ الأصوات الصحيحة.</li>
+          <li><strong>ثمن المقعد (تقريبي)</strong> = مجموع أصوات القوائم التي عبرت نسبة الحسم ÷ 120. لا يأخذ الحساب في الاعتبار اتفاقيات فائض الأصوات وطريقة بدر–عوفر، لذا قد يختلف عن النتيجة الرسمية بأقل من مقعد واحد (فحصنا ذلك في كل الجولات الست).</li>
+          <li><strong>المحاكي</strong>: نغيّر معطيات النقب فقط. أصوات الموحدة خارج النقب تبقى كما كانت، والأصوات الصحيحة خارج النقب تتغير مع نسبة التصويت القطرية.</li>
+          <li><strong>التوقعات</strong>: أصحاب حق الاقتراع في سنة الهدف = العدد في 2026 × (1 + معدل النمو) ^ عدد السنوات.
+            معدل النمو الافتراضي (<span id="m-growth"></span> سنويًا) هو متوسط النمو الفعلي لأصحاب حق الاقتراع في النقب بين نيسان 2019 وتشرين الأول 2026 حسب لجنة الانتخابات.
+            للمقارنة: نمو عدد السكان في البلدات المعترف بها حسب دائرة الإحصاء (2019–2023) كان <span id="m-cbs"></span> سنويًا. يعود الفرق إلى أن المجتمع شاب جدًا: كل سنة يبلغ عدد كبير من الشباب سن 18.</li>
+          <li><strong>السيناريوهات</strong> كلها من المعطيات نفسها: نسبة التصويت ونسبة الموحدة هي الأدنى (متحفّظ)، والمتوسط (واقعي)، والأعلى (متفائل) في الجولات التي خاضتها الموحدة وحدها (2021، 2022، 2026).</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>حدود يجب معرفتها</h2>
+        <ul>
+          <li>في 2019–2020 خاضت الموحدة الانتخابات ضمن قوائم مشتركة (مع التجمع في نيسان 2019، وضمن القائمة المشتركة في أيلول 2019 وآذار 2020)، لذا لا يمكن فصل أصواتها في تلك الجولات.</li>
+          <li>عدد أصحاب حق الاقتراع حسب العنوان المسجَّل، وقد لا يطابق مكان السكن الفعلي.</li>
+          <li>التوقعات تقديرات مبنية على افتراضات، وليست تنبؤًا. استعملها لمقارنة سيناريوهات، لا كرقم نهائي.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal" id="loc-modal" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="loc-modal-title">
+      <button class="modal-x" aria-label="إغلاق">✕</button>
+      <h2 id="loc-modal-title"></h2>
+      <p class="hint" id="loc-modal-sub"></p>
+      <div class="chart"><canvas id="ch-loc"></canvas></div>
+      <div class="table-wrap"><table class="tbl" id="loc-modal-table"></table></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <footer class="wrap foot">
+    المعطيات: لجنة الانتخابات المركزية للكنيست ودائرة الإحصاء المركزية · <span id="foot-updated"></span>
+  </footer>
+
+  <script src="js/vendor/chart.umd.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
